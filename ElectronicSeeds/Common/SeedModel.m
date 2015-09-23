@@ -1,21 +1,21 @@
 //
-//  SenderAddress.m
+//  Seed.m
 //  Shew_v4
 //
 //  Created by Ben Liu on 26/10/2014.
 //  Copyright (c) 2014 Ben Liu. All rights reserved.
 //
 
-#import "SenderAddress.h"
+#import "SeedModel.h"
 
-@implementation Seed
+@implementation SeedModel
 
 
 #pragma mark Serialisation
 
 
-#define stationIDKey        @"stationID"
-#define stationNameKey      @"stationName"
+#define seedIDKey           @"seedID"
+#define seedNameKey         @"seedName"
 #define durationKey         @"duration"
 #define longitudeKey        @"longitude"
 #define latitudeKey         @"latitude"
@@ -30,8 +30,8 @@
 
 
 - (void) encodeWithCoder:(NSCoder *)encoder {
-    [encoder encodeObject:self.stationID        forKey:stationIDKey];
-    [encoder encodeObject:self.stationName      forKey:stationNameKey];
+    [encoder encodeObject:self.seedID           forKey:seedIDKey];
+    [encoder encodeObject:self.seedName         forKey:seedNameKey];
     [encoder encodeObject:self.duration         forKey:durationKey];
     [encoder encodeObject:self.longitude        forKey:longitudeKey];
     [encoder encodeObject:self.latitude         forKey:latitudeKey];
@@ -49,8 +49,8 @@
 - (id)initWithCoder:(NSCoder *)decoder {
     self = [super init];
     
-    self.stationID      = [decoder decodeObjectForKey:stationIDKey];
-    self.stationName    = [decoder decodeObjectForKey:stationNameKey];
+    self.seedID         = [decoder decodeObjectForKey:seedIDKey];
+    self.seedName       = [decoder decodeObjectForKey:seedNameKey];
     self.duration       = [decoder decodeObjectForKey:durationKey];
     self.longitude      = [decoder decodeObjectForKey:longitudeKey];
     self.latitude       = [decoder decodeObjectForKey:latitudeKey];
@@ -67,8 +67,8 @@
 }
 
 
-- (BOOL) isEqual:(Seed*)object{
-    if([self.stationID isEqualToString:object.stationID])
+- (BOOL) isEqual:(SeedModel*)object{
+    if([self.seedID isEqualToString:object.seedID])
         return YES;
     else
         return NO;

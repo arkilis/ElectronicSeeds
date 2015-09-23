@@ -1,5 +1,5 @@
 //
-//  SenderAddress.h
+//  Seed.h
 //  Class of Station/Seeds/Ads
 //
 //  Created by Ben Liu on 26/10/2014.
@@ -10,11 +10,11 @@
 
 
 
-@interface Seed : NSObject
+@interface SeedModel : NSObject
 
 // Properties
-@property (nonatomic, strong) NSString *stationID;
-@property (nonatomic, strong) NSString *stationName;
+@property (nonatomic, strong) NSString *seedID;
+@property (nonatomic, strong) NSString *seedName;
 @property (nonatomic, strong) NSString *duration;
 @property (nonatomic, strong) NSString *longitude;
 @property (nonatomic, strong) NSString *latitude;
@@ -29,6 +29,6 @@
 
 
 // Methods
-- (BOOL) isEqual:(Seed*)object;
+- (BOOL) isEqual:(SeedModel*)object;
 
 @end

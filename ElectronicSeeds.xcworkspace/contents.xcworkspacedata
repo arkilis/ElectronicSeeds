@@ -2,6 +2,9 @@
 <Workspace
    version = "1.0">
    <FileRef
+      location = "group:custom_gps.gpx">
+   </FileRef>
+   <FileRef
       location = "group:ElectronicSeeds.xcodeproj">
    </FileRef>
    <FileRef
