@@ -1,1 +1,7 @@
-<?xml version="1.0"?> <gpx version=“1.1” creator=“Xcode”> <wpt lat="-27.508962" lon="152.936869"> <name>MyOffice</name> </wpt> </gpx>
+<?xml version="1.0" encoding="UTF-8" standalone="no"?>
+<gpxxmlns="http://www.topografix.com/GPX/1/1"xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance" xsi:schemaLocation="http://www.topografix.com/GPX/1/1 http://www.topografix.com/GPX/1/1/gpx.xsd"version="1.1" creator="gpx-poi.com">
+    <wpt lat="-27.508962" lon="152.936869">
+        <time>2014-05-25T07:27:53Z</time>
+        <name>A</name>
+        </wpt>
+        </gpx>

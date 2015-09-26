@@ -42,6 +42,9 @@
 - (void)getNearbySeedsArray: (NSString*) szLocation
              withCompletion: (void (^)(NSMutableArray* aryRes))completion;
 
+-(void)getFutureSeedsArray: (NSString*)szLocation
+            withCompletion:(void (^)(NSMutableArray* aryRes))completion;
+
 /*
 *
 * Static methods

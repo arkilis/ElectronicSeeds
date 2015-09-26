@@ -1,29 +1,32 @@
 //
-//  FutureTableTableViewController.m
-//  Gremlins
+//  RecvTableTableViewController.m
+//  Tuxingsun
 //
-//  Created by Ben Liu on 25/07/2015.
+//  Created by Ben Liu on 21/01/2015.
 //  Copyright (c) 2015 Ben Liu. All rights reserved.
 //
 
-#import "FutureTableTableViewController.h"
+#import "NearByTableViewController.h"
 
-@interface FutureTableTableViewController () {
+
+@interface NearByTableViewController () {
     SeedModel       *seedModel;
     NSArray         *arySeeds;
-    NSArray         *searchResultsFuture;
+    NSArray         *searchResultsNow;
 }
-
 @end
 
-@implementation FutureTableTableViewController
+
+
+@implementation NearByTableViewController
+
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-
+    
     // initialize the search results
-    FutureSearchResultsTableViewController *searchResultsController = [[self storyboard]
-                                                                       instantiateViewControllerWithIdentifier:@"SearchResultsFutureTableViewController"];
+    NearBySearchResultsTableViewController *searchResultsController = [[self storyboard]
+                                                                       instantiateViewControllerWithIdentifier:@"SearchResultsNowTableViewController"];
     
     // initialize the data
     [self wrapperDownLoadedItems];
@@ -47,8 +50,28 @@
     [self.refreshControl addTarget:self
                             action:@selector(wrapperDownLoadedItems)
                   forControlEvents:UIControlEventValueChanged];
-    
 }
+
+// Not Zoombie Code
+// Need to find out the reason: there is no data loaded into the Selected View
+/*
+- (void)viewDidAppear:(BOOL)animated{
+    [super viewDidAppear:animated];
+   
+    
+    // load data items
+    [self wrapperDownLoadedItems];
+    
+    // Initialize the refresh control.
+    self.refreshControl = [[UIRefreshControl alloc] init];
+    self.refreshControl.backgroundColor = [UIColor purpleColor];
+    self.refreshControl.tintColor = [UIColor whiteColor];
+    [self.refreshControl addTarget:self
+                            action:@selector(wrapperDownLoadedItems)
+                  forControlEvents:UIControlEventValueChanged];
+
+}
+ */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -62,7 +85,7 @@
     //arySeeds = [NSArray arrayWithArray:[common getNearbySeedsArray:[common deviceLocation]]];
     //NSMutableArray *aryMutableSeeds = [[NSMutableArray alloc] init];
     
-    [common getFutureSeedsArray: [common deviceLocation]
+    [common getNearbySeedsArray: [common deviceLocation]
                  withCompletion: ^(NSMutableArray* aryMutableSeeds){
                      arySeeds= [NSArray arrayWithArray:aryMutableSeeds];
                      // populate the table view
@@ -85,35 +108,12 @@
                          
                          [self.refreshControl endRefreshing];
                      }
+                     
                  }
      ];
 }
 
-// load data
-// This delegate method will get called when the items are finished downloading
-// This delagate method comes from previous self defined protocol
--(void)itemsDownloaded:(NSArray *)items
-{
-    // Set the downloaded items to the array
-    arySeeds = items;
-    
-    // Reload the table view
-    [self.listTableView reloadData];
-    
-    // End the refreshing
-    if (self.refreshControl) {
-        
-        NSDateFormatter *formatter = [[NSDateFormatter alloc] init];
-        [formatter setDateFormat:@"MMM d, h:mm a"];
-        NSString *title = [NSString stringWithFormat:@"Last update: %@", [formatter stringFromDate:[NSDate date]]];
-        NSDictionary *attrsDictionary = [NSDictionary dictionaryWithObject:[UIColor whiteColor]
-                                                                    forKey:NSForegroundColorAttributeName];
-        NSAttributedString *attributedTitle = [[NSAttributedString alloc] initWithString:title attributes:attrsDictionary];
-        self.refreshControl.attributedTitle = attributedTitle;
-        
-        [self.refreshControl endRefreshing];
-    }
-}
+#pragma mark - Table view data source
 
 - (NSInteger)numberOfSectionsInTableView:(UITableView *)tableView {
     // Return the number of sections.
@@ -127,16 +127,23 @@
 
 
 - (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath {
-    
-    NSString *cellIdentifier = @"basicCellFuture";
+
+    NSString *cellIdentifier = @"basicCellNow";
     CustomTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
-    // Add Right Swipe
+    // get references to labels of cell
+    if (cell == nil) {
+        cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    
+    
+    // add Right Swipe
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [Common colorFromHexString:@"#FB3032"]
-                                                 title: @"Collect"];
+                                                title: @"Collect"];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [Common colorFromHexString:@"#BBBAC2"]
                                                 title: @"Dislike"];
+    
     cell.rightUtilityButtons = rightUtilityButtons;
     cell.delegate= self;
     
@@ -148,12 +155,14 @@
         cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
     }
     
-    cell.labelStationName.text  = item.seedName;            // Station Name
+    cell.labelStationName.text  = item.seedName;            // Seed Name
     cell.labelCategory.text     = item.category;            // Category
     //cell.labelPostDate.text   = item.postDateTime;        // Post DateTime
+    
     // Distance
     cell.labelDistance.text     = [NSString stringWithFormat:@"%.2f Meters", [item.range floatValue]];
     
+    // Category
     if([item.category isEqual:@"Freebie"]){
         cell.imageCategory.image= [UIImage imageNamed:@"freebie_512.jpg"];
     }
@@ -168,18 +177,16 @@
     if([item.importance isEqual:@"1"]){
         cell.imageImportance.image= [UIImage imageNamed:@"dot.png"];
     }
-    
+
     cell.labelExpiredDate.text  = item.expireDateTime;      // Expire date time
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-
     return cell;
-    
+
 }
 
 // When click the table item
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
-    
-    if ([segue.identifier isEqualToString:@"showDetailFuture"]) {
+    if ([segue.identifier isEqualToString:@"showDetailNow"]) {
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
         [SVProgressHUD show];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
@@ -211,11 +218,6 @@
                       });
                   }];
         });
-        
-        /* debug testing whether it has passed the value to the new view
-         SeedModel *selectedObject = [arySeeds objectAtIndex:indexPath.row];
-         NSLog(@"Before transition: %@ %@", selectedObject.latitude, selectedObject.longitude);
-        */
     }
 }
 
@@ -223,8 +225,11 @@
 // override the cell click event
 // which will not display the navigation bar
 - (void)tableView:(UITableView *)tableView didSelectRowAtIndexPath:(NSIndexPath *)indexPath{
-    [self performSegueWithIdentifier:@"showDetailFuture" sender:self];
+    [self performSegueWithIdentifier:@"showDetailNow" sender:self];
 }
+
+
+#pragma mark - Right Swipe on table cell
 
 // Action for right swipe
 // -- for collection
@@ -243,7 +248,7 @@
                 NSArray *aryNewSeeds    = [NSArray arrayWithObjects: seedWantedTobeCollected, nil];
                 [Common setStoredSeeds:aryNewSeeds];
                 [SVProgressHUD showSuccessWithStatus:@"Succeed!"];
-            
+                
             }else{
                 // if the new station is not in the stored array yet, add to the array
                 for(SeedModel *s in aryStoredSeeds) {
@@ -263,14 +268,15 @@
         }
         case 1:
         {
+            
             [cell hideUtilityButtonsAnimated:YES];
             break;
         }
         default:
             break;
     }
-}
 
+}
 
 #pragma mark - Search Results
 
@@ -282,9 +288,9 @@
     [self updateFilteredContentForAirlineName:searchString];
     // If searchResultsController
     if (self.searchController.searchResultsController) {
-        FutureSearchResultsTableViewController *vc = (FutureSearchResultsTableViewController *)self.searchController.searchResultsController;
+        NearBySearchResultsTableViewController *vc = (NearBySearchResultsTableViewController *)self.searchController.searchResultsController;
         // Update searchResults
-        vc.searchResults = [[NSMutableArray alloc]initWithArray:searchResultsFuture];
+        vc.searchResults = [[NSMutableArray alloc]initWithArray:searchResultsNow]; ;
         // And reload the tableView with the new data
         [vc.tableView reloadData];
     }
@@ -297,7 +303,7 @@
     
     if (searchText == nil) {
         // If empty the search results are the same as the original data
-        searchResultsFuture = [arySeeds mutableCopy];
+        searchResultsNow = [arySeeds mutableCopy];
     } else {
         NSMutableArray *searchResults = [[NSMutableArray alloc] init];
         for (SeedModel *seed in arySeeds) {
@@ -305,13 +311,57 @@
                 [searchResults addObject:seed];
             }
         }
-        searchResultsFuture= searchResults;
+        searchResultsNow= searchResults;
         
-        FutureSearchResultsTableViewController *tableController = (FutureSearchResultsTableViewController *)self.searchController.searchResultsController;
+        NearBySearchResultsTableViewController *tableController = (NearBySearchResultsTableViewController *)self.searchController.searchResultsController;
         tableController.searchResults = searchResults;
         [tableController.tableView reloadData];
     }
 }
 
 
+
+//////////// Will be deleted /////////////////////
+/*
+// Back to loig view
+- (IBAction)btnBacktoLogin:(UIBarButtonItem *)sender {
+    // Custome animation
+    //[self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
+    
+    LoginViewController  *logVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewControl"];
+    [self presentViewController:logVC animated:NO completion:nil];
+}
+//////////// Will be deleted /////////////////////
+*/
 @end
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+
+

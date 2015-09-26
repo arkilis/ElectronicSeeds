@@ -33,6 +33,10 @@
 		B569BE601BACE4EC00C928AF /* CustomTableCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B569BE5F1BACE4EC00C928AF /* CustomTableCell.m */; };
 		B569BE6A1BAF539A00C928AF /* TabBarViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B569BE691BAF539A00C928AF /* TabBarViewController.m */; };
 		B569BE6D1BAF542100C928AF /* UserInfo.m in Sources */ = {isa = PBXBuildFile; fileRef = B569BE6C1BAF542100C928AF /* UserInfo.m */; };
+		B5ADCE5D1BB4906E00353B35 /* NearBySearchResultsTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE5A1BB4906E00353B35 /* NearBySearchResultsTableViewController.m */; };
+		B5ADCE5E1BB4906E00353B35 /* NearByTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE5C1BB4906E00353B35 /* NearByTableViewController.m */; };
+		B5ADCE621BB68AB000353B35 /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE601BB68AB000353B35 /* dot.png */; };
+		B5ADCE631BB68AB000353B35 /* like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE611BB68AB000353B35 /* like@2x.png */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -88,6 +92,12 @@
 		B569BE691BAF539A00C928AF /* TabBarViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = TabBarViewController.m; path = TabMainView/TabBarViewController.m; sourceTree = "<group>"; };
 		B569BE6B1BAF542100C928AF /* UserInfo.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = UserInfo.h; path = ElectronicSeeds/UserInfo/UserInfo.h; sourceTree = "<group>"; };
 		B569BE6C1BAF542100C928AF /* UserInfo.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = UserInfo.m; path = ElectronicSeeds/UserInfo/UserInfo.m; sourceTree = "<group>"; };
+		B5ADCE591BB4906E00353B35 /* NearBySearchResultsTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearBySearchResultsTableViewController.h; path = NearViewController/NearBySearchResultsTableViewController.h; sourceTree = "<group>"; };
+		B5ADCE5A1BB4906E00353B35 /* NearBySearchResultsTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearBySearchResultsTableViewController.m; path = NearViewController/NearBySearchResultsTableViewController.m; sourceTree = "<group>"; };
+		B5ADCE5B1BB4906E00353B35 /* NearByTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = NearByTableViewController.h; path = NearViewController/NearByTableViewController.h; sourceTree = "<group>"; };
+		B5ADCE5C1BB4906E00353B35 /* NearByTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = NearByTableViewController.m; path = NearViewController/NearByTableViewController.m; sourceTree = "<group>"; };
+		B5ADCE601BB68AB000353B35 /* dot.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = dot.png; path = images/cell/dot.png; sourceTree = "<group>"; };
+		B5ADCE611BB68AB000353B35 /* like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like@2x.png"; path = "images/cell/like@2x.png"; sourceTree = "<group>"; };
 		BFF4E5E480E865EEE8D85181 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2F9957219BDCD5A816AC79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -207,6 +217,10 @@
 		B569BE0D1BAB66EE00C928AF /* NearViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B5ADCE591BB4906E00353B35 /* NearBySearchResultsTableViewController.h */,
+				B5ADCE5A1BB4906E00353B35 /* NearBySearchResultsTableViewController.m */,
+				B5ADCE5B1BB4906E00353B35 /* NearByTableViewController.h */,
+				B5ADCE5C1BB4906E00353B35 /* NearByTableViewController.m */,
 			);
 			name = NearViewController;
 			sourceTree = "<group>";
@@ -271,6 +285,7 @@
 		B569BE161BAB681700C928AF /* Images */ = {
 			isa = PBXGroup;
 			children = (
+				B5ADCE5F1BB68AA800353B35 /* cell */,
 				B55915271BB3400B00C837D2 /* category */,
 				B569BE171BAB682300C928AF /* collection.png */,
 				B569BE181BAB682300C928AF /* future.png */,
@@ -304,6 +319,15 @@
 				B569BE691BAF539A00C928AF /* TabBarViewController.m */,
 			);
 			name = TabMainView;
+			sourceTree = "<group>";
+		};
+		B5ADCE5F1BB68AA800353B35 /* cell */ = {
+			isa = PBXGroup;
+			children = (
+				B5ADCE601BB68AB000353B35 /* dot.png */,
+				B5ADCE611BB68AB000353B35 /* like@2x.png */,
+			);
+			name = cell;
 			sourceTree = "<group>";
 		};
 		F65911C5AE4081942950CE1E /* Frameworks */ = {
@@ -404,8 +428,10 @@
 				B569BE1D1BAB682300C928AF /* collection.png in Resources */,
 				B559152B1BB340A700C837D2 /* discount_512.jpg in Resources */,
 				B569BDF81BAB61DC00C928AF /* LaunchScreen.xib in Resources */,
+				B5ADCE621BB68AB000353B35 /* dot.png in Resources */,
 				B569BDF51BAB61DC00C928AF /* Images.xcassets in Resources */,
 				B569BE211BAB682300C928AF /* now.png in Resources */,
+				B5ADCE631BB68AB000353B35 /* like@2x.png in Resources */,
 				B569BE201BAB682300C928AF /* me.png in Resources */,
 				B559152D1BB340A700C837D2 /* freebie_512.jpg in Resources */,
 			);
@@ -458,6 +484,7 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				B5ADCE5E1BB4906E00353B35 /* NearByTableViewController.m in Sources */,
 				B569BE5D1BACE48200C928AF /* SeedModel.m in Sources */,
 				B569BDF01BAB61DC00C928AF /* SecondViewController.m in Sources */,
 				B569BE5A1BACE37700C928AF /* SelectItemViewController.m in Sources */,
@@ -469,6 +496,7 @@
 				B569BE6A1BAF539A00C928AF /* TabBarViewController.m in Sources */,
 				B569BDED1BAB61DC00C928AF /* FirstViewController.m in Sources */,
 				B569BDE71BAB61DC00C928AF /* main.m in Sources */,
+				B5ADCE5D1BB4906E00353B35 /* NearBySearchResultsTableViewController.m in Sources */,
 				B569BE561BACE34D00C928AF /* FutureSearchResultsTableViewController.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;

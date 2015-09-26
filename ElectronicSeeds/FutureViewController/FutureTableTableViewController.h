@@ -11,9 +11,8 @@
 #import "SeedModel.h"
 #import "CustomTableCell.h"
 #import "SelectItemViewController.h"
-#import "SWTableViewCell.h"
+//#import "SWTableViewCell.h"
 #import "FutureSearchResultsTableViewController.h"
-#import "AFNetworking.h"
 
 
 @interface FutureTableTableViewController : UITableViewController <UITableViewDataSource,

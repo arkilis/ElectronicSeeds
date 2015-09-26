@@ -35,6 +35,12 @@
     NSString *szLocation = [NSString stringWithFormat:@"%f,%f",
                              self.locationManager.location.coordinate.latitude,
                              self.locationManager.location.coordinate.longitude];
+    
+    NSLog(@"Location: %@", szLocation);
+    // debug
+    if([szLocation isEqualToString:@"0.000000,0.000000"]){
+        szLocation= @"-27.508962, 152.936869";
+    }
     return szLocation;
 }
 
@@ -110,6 +116,77 @@
           }];
 }
 
+
+// Get nearby Seeds array
+//  return an array of nearby seeds
+-(void)getFutureSeedsArray: (NSString*)szLocation
+            withCompletion:(void (^)(NSMutableArray* aryRes))completion {
+    
+    NSArray *aryLatLng= [szLocation componentsSeparatedByString:@","];
+    NSMutableArray* aryNearBySeeds = [[NSMutableArray alloc] init];
+    //aryNearBySeeds = [[NSMutableArray alloc] init];
+    NSString* szURLNearBy= [NSString stringWithFormat:@"%@%@", szURLMain, szURLGetFuture];
+    
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST: szURLNearBy
+       parameters:@{
+                    @"latitude"  : aryLatLng[0],
+                    @"longitude" : aryLatLng[1]
+                    }
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              // Have to debug: whether responseObject is json or not
+              NSLog(@"JSON: %@", responseObject);
+              
+              // Parse the JSON
+              NSLog(@"latitude:%@, longitude:%@", aryLatLng[0], aryLatLng[1]);
+              
+              //NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:responseObject
+              //                                                     options:0
+              //                                                       error:&error];
+              
+              
+              
+              for (int i = 0; i < [responseObject count]; i++)
+              {
+                  NSDictionary *jsonElement = responseObject[i];
+                  
+                  // Create a new location object and set its props to JsonElement properties
+                  SeedModel* seed       = [[SeedModel alloc] init];
+                  seed.seedID           = jsonElement[@"station_id"];
+                  seed.seedName         = jsonElement[@"station_name"];
+                  seed.latitude         = jsonElement[@"latitude"];
+                  seed.longitude        = jsonElement[@"longitude"];
+                  seed.fileURLUpload    = jsonElement[@"fileURLUpload"];
+                  seed.fileURLDropbox   = jsonElement[@"fileURLDropbox"];
+                  seed.range            = jsonElement[@"m"];
+                  seed.postDateTime     = jsonElement[@"pos_date_time"];
+                  seed.address          = jsonElement[@"address"];
+                  seed.duration         = jsonElement[@"duration"];
+                  seed.category         = jsonElement[@"category_name"];
+                  seed.importance       = jsonElement[@"importance"];
+                  
+                  // Set expire date and time
+                  NSDateFormatter *dateFormat = [[NSDateFormatter alloc] init];
+                  [dateFormat setDateFormat:@"YYYY-MM-dd HH:mm:ss"];
+                  NSDate *postDateTime = [dateFormat dateFromString:seed.postDateTime];
+                  NSDate *expireDatetime = [postDateTime dateByAddingTimeInterval:60*[seed.duration intValue]];
+                  seed.expireDateTime = [dateFormat stringFromDate:expireDatetime];
+                  
+                  // Add this location to the locations array
+                  [aryNearBySeeds addObject:seed];
+              }
+              
+              if(completion)
+                  completion(aryNearBySeeds);
+              
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Retrieve Seeds Error: %@", error);
+              if(completion)
+                  completion(aryNearBySeeds);
+              
+          }];
+}
 
 
 // Set UIColor from Hex string
