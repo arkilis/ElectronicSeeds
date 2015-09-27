@@ -38,6 +38,10 @@
 		B5ADCE621BB68AB000353B35 /* dot.png in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE601BB68AB000353B35 /* dot.png */; };
 		B5ADCE631BB68AB000353B35 /* like@2x.png in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE611BB68AB000353B35 /* like@2x.png */; };
 		B5ADCE671BB762E600353B35 /* LoginViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE661BB762E600353B35 /* LoginViewController.m */; };
+		B5ADCE6C1BB78BF700353B35 /* MeFXForm.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE691BB78BF700353B35 /* MeFXForm.m */; };
+		B5ADCE6D1BB78BF700353B35 /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE6B1BB78BF700353B35 /* MeViewController.m */; };
+		B5ADCE721BB7F4A200353B35 /* CustomLogoutBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE701BB7F4A200353B35 /* CustomLogoutBtnCell.m */; };
+		B5ADCE731BB7F4A200353B35 /* CustomLogoutBtnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE711BB7F4A200353B35 /* CustomLogoutBtnCell.xib */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -101,6 +105,13 @@
 		B5ADCE611BB68AB000353B35 /* like@2x.png */ = {isa = PBXFileReference; lastKnownFileType = image.png; name = "like@2x.png"; path = "images/cell/like@2x.png"; sourceTree = "<group>"; };
 		B5ADCE651BB762E600353B35 /* LoginViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = LoginViewController.h; path = LoginViewController/LoginViewController.h; sourceTree = "<group>"; };
 		B5ADCE661BB762E600353B35 /* LoginViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = LoginViewController.m; path = LoginViewController/LoginViewController.m; sourceTree = "<group>"; };
+		B5ADCE681BB78BF700353B35 /* MeFXForm.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeFXForm.h; path = MeViewController/MeFXForm.h; sourceTree = "<group>"; };
+		B5ADCE691BB78BF700353B35 /* MeFXForm.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeFXForm.m; path = MeViewController/MeFXForm.m; sourceTree = "<group>"; };
+		B5ADCE6A1BB78BF700353B35 /* MeViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = MeViewController.h; path = MeViewController/MeViewController.h; sourceTree = "<group>"; };
+		B5ADCE6B1BB78BF700353B35 /* MeViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = MeViewController.m; path = MeViewController/MeViewController.m; sourceTree = "<group>"; };
+		B5ADCE6F1BB7F4A200353B35 /* CustomLogoutBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLogoutBtnCell.h; sourceTree = "<group>"; };
+		B5ADCE701BB7F4A200353B35 /* CustomLogoutBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLogoutBtnCell.m; sourceTree = "<group>"; };
+		B5ADCE711BB7F4A200353B35 /* CustomLogoutBtnCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomLogoutBtnCell.xib; sourceTree = "<group>"; };
 		BFF4E5E480E865EEE8D85181 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2F9957219BDCD5A816AC79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -242,6 +253,11 @@
 		B569BE0F1BAB674F00C928AF /* MeViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B5ADCE6E1BB7F43900353B35 /* CustomLogoutBtn */,
+				B5ADCE681BB78BF700353B35 /* MeFXForm.h */,
+				B5ADCE691BB78BF700353B35 /* MeFXForm.m */,
+				B5ADCE6A1BB78BF700353B35 /* MeViewController.h */,
+				B5ADCE6B1BB78BF700353B35 /* MeViewController.m */,
 			);
 			name = MeViewController;
 			sourceTree = "<group>";
@@ -333,6 +349,16 @@
 				B5ADCE611BB68AB000353B35 /* like@2x.png */,
 			);
 			name = cell;
+			sourceTree = "<group>";
+		};
+		B5ADCE6E1BB7F43900353B35 /* CustomLogoutBtn */ = {
+			isa = PBXGroup;
+			children = (
+				B5ADCE6F1BB7F4A200353B35 /* CustomLogoutBtnCell.h */,
+				B5ADCE701BB7F4A200353B35 /* CustomLogoutBtnCell.m */,
+				B5ADCE711BB7F4A200353B35 /* CustomLogoutBtnCell.xib */,
+			);
+			name = CustomLogoutBtn;
 			sourceTree = "<group>";
 		};
 		F65911C5AE4081942950CE1E /* Frameworks */ = {
@@ -438,6 +464,7 @@
 				B569BE211BAB682300C928AF /* now.png in Resources */,
 				B5ADCE631BB68AB000353B35 /* like@2x.png in Resources */,
 				B569BE201BAB682300C928AF /* me.png in Resources */,
+				B5ADCE731BB7F4A200353B35 /* CustomLogoutBtnCell.xib in Resources */,
 				B559152D1BB340A700C837D2 /* freebie_512.jpg in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
@@ -498,12 +525,15 @@
 				B569BDEA1BAB61DC00C928AF /* AppDelegate.m in Sources */,
 				B569BE601BACE4EC00C928AF /* CustomTableCell.m in Sources */,
 				B569BE501BACE31000C928AF /* Common.m in Sources */,
+				B5ADCE6C1BB78BF700353B35 /* MeFXForm.m in Sources */,
 				B569BE6A1BAF539A00C928AF /* TabBarViewController.m in Sources */,
 				B569BDED1BAB61DC00C928AF /* FirstViewController.m in Sources */,
 				B569BDE71BAB61DC00C928AF /* main.m in Sources */,
 				B5ADCE5D1BB4906E00353B35 /* NearBySearchResultsTableViewController.m in Sources */,
 				B569BE561BACE34D00C928AF /* FutureSearchResultsTableViewController.m in Sources */,
 				B5ADCE671BB762E600353B35 /* LoginViewController.m in Sources */,
+				B5ADCE6D1BB78BF700353B35 /* MeViewController.m in Sources */,
+				B5ADCE721BB7F4A200353B35 /* CustomLogoutBtnCell.m in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};

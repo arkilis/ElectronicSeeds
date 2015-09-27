@@ -26,8 +26,7 @@
     } else {
         // Show loading image
         [SVProgressHUD show];
-
-        
+    
         [Common getLogin:[self.textEmail text] password:[self.textPassword text]
           withCompletion:^(UserInfo* userinfo){
             
@@ -39,7 +38,6 @@
                   // For later jump action
                   NSUserDefaults *userDefault= [NSUserDefaults standardUserDefaults];
                   NSString *action = [userDefault objectForKey:@"action"];
-                  
                   
                   TabBarViewController *tbc = [mainStoryBoard instantiateViewControllerWithIdentifier:@"MainTabBar"];
                   
