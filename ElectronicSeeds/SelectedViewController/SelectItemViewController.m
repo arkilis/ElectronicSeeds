@@ -26,29 +26,16 @@
 -(void) viewDidAppear:(BOOL)animated{
     
     //[super viewDidLoad];
+    
     [super viewDidAppear:animated];
     // Do any additional setup after loading the view.
     
-    // Set seed name
-    [_labelStationName setText:selectedSeed.seedName];
-    [_labelURL setNumberOfLines:0];
-    [_labelStationName sizeToFit];
-    
-    // Set post date and time
-    [_labelPostDateTime setText:selectedSeed.postDateTime];
-    [_labelPostDateTime sizeToFit];
-    
-    // Set expire date and time
-    [_labelExpireDateTime setText:selectedSeed.expireDateTime];
-    [_labelExpireDateTime sizeToFit];
-    
-    // Set expire date and time
-    [_labelDistance setText: [NSString stringWithFormat:@"%.2f Meters", [selectedSeed.range floatValue]]];
-    [_labelDistance sizeToFit];
-    
-    // debug
-    //NSLog(@"%@, %@", selectedSeed.latitude, selectedSeed.longitude);
-    
+    [_labelStationName setText:selectedSeed.seedName];                  // Set seed name
+    [_labelPostDateTime setText:selectedSeed.postDateTime];             // Set post date and time
+    [_labelExpireDateTime setText:selectedSeed.expireDateTime];         // Set expire date and time
+    [_labelDistance setText: [NSString stringWithFormat:@"%.2f Meters", // Set expire date and time
+                              [selectedSeed.range floatValue]]];
+
     
     // add google map and its marker
     self.mapView.camera = [GMSCameraPosition cameraWithLatitude: [selectedSeed.latitude doubleValue]

@@ -27,7 +27,6 @@
     return self;
 }
 
-
 // Get the current location
 //  return format: 1.2,-1.2
 - (NSString *)deviceLocation
@@ -46,7 +45,7 @@
 
 
 // Get nearby Seeds array
-//  return an array of nearby seeds
+//  return an array of nearby seeds block
 -(void)getNearbySeedsArray: (NSString*)szLocation
             withCompletion:(void (^)(NSMutableArray* aryRes))completion {
     
@@ -68,13 +67,7 @@
               
               // Parse the JSON
               NSLog(@"latitude:%@, longitude:%@", aryLatLng[0], aryLatLng[1]);
-              
-              //NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:responseObject
-              //                                                     options:0
-              //                                                       error:&error];
-              
-              
-              
+  
               for (int i = 0; i < [responseObject count]; i++)
               {
                   NSDictionary *jsonElement = responseObject[i];
@@ -109,7 +102,7 @@
                   completion(aryNearBySeeds);
               
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"Retrieve Seeds Error: %@", error);
+              NSLog(@"Retrieve Nearby Seeds Error: %@", error);
               if(completion)
                   completion(aryNearBySeeds);
                 
@@ -118,7 +111,7 @@
 
 
 // Get nearby Seeds array
-//  return an array of nearby seeds
+//  return an array of future seeds block
 -(void)getFutureSeedsArray: (NSString*)szLocation
             withCompletion:(void (^)(NSMutableArray* aryRes))completion {
     
@@ -140,12 +133,6 @@
               
               // Parse the JSON
               NSLog(@"latitude:%@, longitude:%@", aryLatLng[0], aryLatLng[1]);
-              
-              //NSArray *jsonArray = [NSJSONSerialization JSONObjectWithData:responseObject
-              //                                                     options:0
-              //                                                       error:&error];
-              
-              
               
               for (int i = 0; i < [responseObject count]; i++)
               {
@@ -181,12 +168,51 @@
                   completion(aryNearBySeeds);
               
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
-              NSLog(@"Retrieve Seeds Error: %@", error);
+              NSLog(@"Retrieve Future Seeds Error: %@", error);
               if(completion)
                   completion(aryNearBySeeds);
               
           }];
 }
+
+// Login
+//  return UserInfo object
++(void)getLogin: (NSString*)szEmail
+       password: (NSString*)szPassword
+ withCompletion: (void (^)(UserInfo*)) completion {
+    
+    UserInfo* userinfo= [[UserInfo alloc]init];
+    NSString* szURLLoginRequest= [NSString stringWithFormat:@"%@%@", szURLMain, szURLLogin];
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST: szURLLoginRequest
+       parameters:@{
+                    @"email"    : szEmail,
+                    @"password" : szPassword
+                    }
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              
+              NSLog(@"Login return: %@", responseObject);
+        
+              userinfo.userID               = responseObject[@"userid"];
+              userinfo.userEmail            = szEmail;
+              userinfo.credit               = @"0";
+              userinfo.notificationOption   = @"";
+              userinfo.categoryOption       = nil;  // this can be all the categories
+              
+              [self serializeUserInfoObject:userinfo];
+              
+              if(completion)
+                  completion(userinfo);
+              
+          } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
+              NSLog(@"Login error: %@", error);
+              [self alertStatus:@"Invalid username or password." :@"Sign in Failed!": 0];
+              if(completion)
+                  completion(userinfo);
+          }];
+}
+
+
 
 
 // Set UIColor from Hex string
@@ -200,6 +226,35 @@
                            green:((rgbValue & 0xFF00) >> 8)/255.0
                             blue:(rgbValue & 0xFF)/255.0
                            alpha:1.0];
+}
+
+
+// Static method on alert
++ (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag
+{
+    UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
+                                                        message:msg
+                                                       delegate:self
+                                              cancelButtonTitle:@"Ok"
+                                              otherButtonTitles:nil, nil];
+    alertView.tag = tag;
+    [alertView show];
+}
+
+
+
+// Get URL
+//  get website url
++(NSString*)getWebSiteURL{
+    return [NSString stringWithFormat:@"%@%@", szURLMain, szURLForgotPassword];
+}
+//  get registration url
++(NSString*)getRegistrationURL{
+    return [NSString stringWithFormat:@"%@%@", szURLMain, szURLRegistration];
+}
+//  get forgot password url
++(NSString*)getForgetPasswordURL{
+    return [NSString stringWithFormat:@"%@%@", szURLMain, szURLForgotPassword];
 }
 
 
@@ -243,6 +298,14 @@
     return (UserInfo*)[NSKeyedUnarchiver unarchiveObjectWithData:[userDefaults objectForKey:szKeyUserInfo]];
 }
 
+
+// Serialize UserInfo Object
++ (void) serializeUserInfoObject: (UserInfo*)userInfo {
+    NSUserDefaults *userDefaults= [NSUserDefaults standardUserDefaults];
+    NSData *serialziedData= [NSKeyedArchiver archivedDataWithRootObject:userInfo];
+    [userDefaults setObject:serialziedData forKey:szKeyUserInfo];
+}
+
 // Serialize User Data
 + (void) serializeUserInfo: (NSString*)userID
              withUserEmail: (NSString*)userEmail
@@ -260,7 +323,6 @@
     NSUserDefaults *userDefaults= [NSUserDefaults standardUserDefaults];
     NSData *serialziedData= [NSKeyedArchiver archivedDataWithRootObject:userInfo];
     [userDefaults setObject:serialziedData forKey:szKeyUserInfo];
-    
 }
 
 

@@ -46,6 +46,7 @@
             
             NSLog(@"selected 2 - post tab");
             UserInfo *userinfo= [Common deSerializeUserInfo];
+            NSLog(@"Post tab: user id: %@, user email:%@", userinfo.userID, userinfo.userEmail);
             if (userinfo==nil || userinfo.userID==nil) {
                 // set the shard object -- remember the view that going to go.
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -53,10 +54,9 @@
                 [userDefaults synchronize];
                 
                 // Go to the login view
-                /*
                 LoginViewController  *logVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewControl"];
                 [self presentViewController:logVC animated:NO completion:nil];
-                 */
+                
             }
             break;
         }
@@ -76,10 +76,8 @@
                 [userDefaults synchronize];
                 
                 // Go to the login view
-                /*
                 LoginViewController  *logVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewControl"];
                 [self presentViewController:logVC animated:NO completion:nil];
-                 */
             }
             break;
         }

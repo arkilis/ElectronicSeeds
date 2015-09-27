@@ -45,6 +45,9 @@
 -(void)getFutureSeedsArray: (NSString*)szLocation
             withCompletion:(void (^)(NSMutableArray* aryRes))completion;
 
+
+
+
 /*
 *
 * Static methods
@@ -53,6 +56,18 @@
 
 // Set UIColor from Hex string
 + (UIColor *)colorFromHexString:(NSString *)hexString;
+// Alert Box
++ (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag;
+
+// Get URL
+//  get website url
++(NSString*)getWebSiteURL;
+//  get registration url
++(NSString*)getRegistrationURL;
+//  get forgot password url
++(NSString*)getForgetPasswordURL;
+
+
 
 // Get Stored Seeds array
 + (NSArray*)getStoredSeeds;
@@ -62,8 +77,14 @@
 +(void)AddStoredSeed:(SeedModel*)SingleSeed;
 
 
+// Login
++(void)getLogin: (NSString*)szEmail
+       password: (NSString*)szPassword
+ withCompletion: (void (^)(UserInfo*)) completion;
+
 // Serialize User Data
 + (UserInfo*) deSerializeUserInfo;
++ (void) serializeUserInfoObject: (UserInfo*)userInfo;
 + (void) serializeUserInfo: (NSString*) userID
              withUserEmail: (NSString*) userEmail
                 withCredit: (NSString*) credit
