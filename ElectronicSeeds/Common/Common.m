@@ -269,12 +269,10 @@
 // Set stored Seeds
 //  Put an array of Seeds into local storation, which will replace the original one
 +(void)setStoredSeeds:(NSArray*)arySeeds {
-    if([arySeeds count]!=0){
-        NSUserDefaults *userDefaults =[NSUserDefaults standardUserDefaults];
-        NSData *seralizedData =[NSKeyedArchiver archivedDataWithRootObject:arySeeds];
-        [userDefaults setObject:seralizedData forKey:szKeySeedsArray];
-        [userDefaults synchronize];
-    }
+    NSUserDefaults *userDefaults =[NSUserDefaults standardUserDefaults];
+    NSData *seralizedData =[NSKeyedArchiver archivedDataWithRootObject:arySeeds];
+    [userDefaults setObject:seralizedData forKey:szKeySeedsArray];
+    [userDefaults synchronize];
 }
 
 // Add one Seed to the Store

@@ -42,6 +42,7 @@
 		B5ADCE6D1BB78BF700353B35 /* MeViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE6B1BB78BF700353B35 /* MeViewController.m */; };
 		B5ADCE721BB7F4A200353B35 /* CustomLogoutBtnCell.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE701BB7F4A200353B35 /* CustomLogoutBtnCell.m */; };
 		B5ADCE731BB7F4A200353B35 /* CustomLogoutBtnCell.xib in Resources */ = {isa = PBXBuildFile; fileRef = B5ADCE711BB7F4A200353B35 /* CustomLogoutBtnCell.xib */; };
+		B5ADCE761BB7FBD400353B35 /* CollectionTableViewController.m in Sources */ = {isa = PBXBuildFile; fileRef = B5ADCE751BB7FBD400353B35 /* CollectionTableViewController.m */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -112,6 +113,8 @@
 		B5ADCE6F1BB7F4A200353B35 /* CustomLogoutBtnCell.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; path = CustomLogoutBtnCell.h; sourceTree = "<group>"; };
 		B5ADCE701BB7F4A200353B35 /* CustomLogoutBtnCell.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; path = CustomLogoutBtnCell.m; sourceTree = "<group>"; };
 		B5ADCE711BB7F4A200353B35 /* CustomLogoutBtnCell.xib */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = file.xib; path = CustomLogoutBtnCell.xib; sourceTree = "<group>"; };
+		B5ADCE741BB7FBD400353B35 /* CollectionTableViewController.h */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.h; name = CollectionTableViewController.h; path = CollectionViewController/CollectionTableViewController.h; sourceTree = "<group>"; };
+		B5ADCE751BB7FBD400353B35 /* CollectionTableViewController.m */ = {isa = PBXFileReference; fileEncoding = 4; lastKnownFileType = sourcecode.c.objc; name = CollectionTableViewController.m; path = CollectionViewController/CollectionTableViewController.m; sourceTree = "<group>"; };
 		BFF4E5E480E865EEE8D85181 /* libPods.a */ = {isa = PBXFileReference; explicitFileType = archive.ar; includeInIndex = 0; path = libPods.a; sourceTree = BUILT_PRODUCTS_DIR; };
 		DA2F9957219BDCD5A816AC79 /* Pods.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = Pods.debug.xcconfig; path = "Pods/Target Support Files/Pods/Pods.debug.xcconfig"; sourceTree = "<group>"; };
 /* End PBXFileReference section */
@@ -272,6 +275,8 @@
 		B569BE111BAB679D00C928AF /* CollectionViewController */ = {
 			isa = PBXGroup;
 			children = (
+				B5ADCE741BB7FBD400353B35 /* CollectionTableViewController.h */,
+				B5ADCE751BB7FBD400353B35 /* CollectionTableViewController.m */,
 			);
 			name = CollectionViewController;
 			sourceTree = "<group>";
@@ -518,6 +523,7 @@
 			files = (
 				B5ADCE5E1BB4906E00353B35 /* NearByTableViewController.m in Sources */,
 				B569BE5D1BACE48200C928AF /* SeedModel.m in Sources */,
+				B5ADCE761BB7FBD400353B35 /* CollectionTableViewController.m in Sources */,
 				B569BDF01BAB61DC00C928AF /* SecondViewController.m in Sources */,
 				B569BE5A1BACE37700C928AF /* SelectItemViewController.m in Sources */,
 				B569BE571BACE34D00C928AF /* FutureTableTableViewController.m in Sources */,

@@ -11,23 +11,23 @@
 
 
 // URL constants
-static NSString * const szURLMain           = @"http://www.electronicseeds.com/";
-static NSString * const szURLLogin          = @"appScript/login_app.php";
-static NSString * const szURLGetNear        = @"appScript/getnearlocations.php";
-static NSString * const szURLGetFuture      = @"appScript/getFutureSeeds.php";
-static NSString * const szURLSendStats      = @"appScript/adStats.php";
-static NSString * const szURLRegistration   = @"index.php/mydefault/registerView";
-static NSString * const szURLForgotPassword = @"index.php/mydefault/sendResetPasswordEmailView";
-static NSString * const szURLPostNewSeed    = @"index.php/mydefault/user_post_a_new_station";
-static NSString * const szURLUploadImage    = @"index.php/fileupload/upload_file";
+static NSString * const szURLMain                   = @"http://www.electronicseeds.com/";
+static NSString * const szURLLogin                  = @"appScript/login_app.php";
+static NSString * const szURLGetNear                = @"appScript/getnearlocations.php";
+static NSString * const szURLGetFuture              = @"appScript/getFutureSeeds.php";
+static NSString * const szURLSendStats              = @"appScript/adStats.php";
+static NSString * const szURLRegistration           = @"index.php/mydefault/registerView";
+static NSString * const szURLForgotPassword         = @"index.php/mydefault/sendResetPasswordEmailView";
+static NSString * const szURLPostNewSeed            = @"index.php/mydefault/user_post_a_new_station";
+static NSString * const szURLUploadImage            = @"index.php/fileupload/upload_file";
 
 
 // Google Map init Zoom
-static int const iGoogleMapZoomIn           = 14;
+static int const iGoogleMapZoomIn                   = 14;
 
 
 // NSUserDefaults key
-static NSString * const szKeySeedsArray     = @"Seeds";
+static NSString * const szKeySeedsArray             = @"Seeds";
 
 // NSUserDefaults User Info key
 static NSString * const szKeyUserInfo               = @"userInfo";
