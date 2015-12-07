@@ -48,6 +48,8 @@
                             action:@selector(wrapperDownLoadedItems)
                   forControlEvents:UIControlEventValueChanged];
     
+    // remove all empty rows
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -59,11 +61,10 @@
 -(void) wrapperDownLoadedItems{
     
     Common *common= [[Common alloc] init];
-    //arySeeds = [NSArray arrayWithArray:[common getNearbySeedsArray:[common deviceLocation]]];
-    //NSMutableArray *aryMutableSeeds = [[NSMutableArray alloc] init];
     
     [common getFutureSeedsArray: [common deviceLocation]
                  withCompletion: ^(NSMutableArray* aryMutableSeeds){
+                     
                      arySeeds= [NSArray arrayWithArray:aryMutableSeeds];
                      // populate the table view
                      self.listTableView.delegate = self;
@@ -131,6 +132,10 @@
     NSString *cellIdentifier = @"basicCellFuture";
     CustomTableCell *cell = [tableView dequeueReusableCellWithIdentifier:cellIdentifier];
     
+    // Get references to labels of cell
+    if (cell == nil) {
+        cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
     // Add Right Swipe
     NSMutableArray *rightUtilityButtons = [NSMutableArray new];
     [rightUtilityButtons sw_addUtilityButtonWithColor: [Common colorFromHexString:@"#FB3032"]
@@ -142,36 +147,17 @@
     
     // Get the location to be shown
     SeedModel *item = arySeeds[indexPath.row];
-    
-    // Get references to labels of cell
-    if (cell == nil) {
-        cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.labelStationName.text  = item.seedName;            // Station Name
-    cell.labelCategory.text     = item.category;            // Category
-    //cell.labelPostDate.text   = item.postDateTime;        // Post DateTime
-    // Distance
-    cell.labelDistance.text     = [NSString stringWithFormat:@"%.2f Meters", [item.range floatValue]];
-    
-    if([item.category isEqual:@"Freebie"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"freebie_512.jpg"];
-    }
-    if([item.category isEqual:@"Discount"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"discount_512.jpg"];
-    }
-    if([item.category isEqual:@"Entertainment"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"entertainment_512.png"];
-    }
-    
-    // importance
-    if([item.importance isEqual:@"1"]){
-        cell.imageImportance.image= [UIImage imageNamed:@"dot.png"];
-    }
-    
-    cell.labelExpiredDate.text  = item.expireDateTime;      // Expire date time
-    cell.selectionStyle = UITableViewCellSelectionStyleGray;
 
+    // Category
+    NSDictionary    *imageCategory= [Common initCategoryImages];
+    NSString        *szImageCategorName= imageCategory[item.category];
+    
+    [cell createLayout:item.seedName
+          withCategory:item.category
+          withDistance:[item.range floatValue]
+     withCategoryImage:[UIImage imageNamed:szImageCategorName]
+        withImportance:item.importance
+        withExpireDate:item.expireDateTime];
     return cell;
     
 }
@@ -181,6 +167,7 @@
     
     if ([segue.identifier isEqualToString:@"showDetailFuture"]) {
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD show];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
@@ -212,10 +199,6 @@
                   }];
         });
         
-        /* debug testing whether it has passed the value to the new view
-         SeedModel *selectedObject = [arySeeds objectAtIndex:indexPath.row];
-         NSLog(@"Before transition: %@ %@", selectedObject.latitude, selectedObject.longitude);
-        */
     }
 }
 
@@ -229,6 +212,8 @@
 // Action for right swipe
 // -- for collection
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     switch (index) {
         case 0:
         {

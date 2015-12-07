@@ -35,9 +35,6 @@
     return [self initWithVariables];
 }
 
-// Some constants
-
-
 
 
 // Account name

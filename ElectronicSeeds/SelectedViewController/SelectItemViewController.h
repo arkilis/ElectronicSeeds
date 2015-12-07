@@ -9,29 +9,24 @@
 #import <UIKit/UIKit.h>
 #import "Constants.h"
 #import "SeedModel.h"
+#import "Masonry.h"
 #import "GoogleMaps/GoogleMaps.h"
 #import "SVProgressHUD/SVProgressHUD.h"
+#import "MMPlaceHolder.h"
+#import "Common.h"
+#import "SDWebImage/UIImageView+WebCache.h"
+
 
 
 
 @interface SelectItemViewController : UIViewController
 
-@property (weak, nonatomic) SeedModel *selectedSeed;
-
-
-// Testing variable transit between views
+@property (strong ,nonatomic) SeedModel *selectedSeed;
 @property (strong, nonatomic) NSString *stationName;
-
-// Show on the screen
 @property (strong, nonatomic) IBOutlet UILabel *labelURL;
 
-@property (strong, nonatomic) IBOutlet GMSMapView   *mapView;
-@property (strong, nonatomic) IBOutlet UILabel      *labelStationName;
-@property (strong, nonatomic) IBOutlet UILabel      *labelPostDateTime;
-@property (strong, nonatomic) IBOutlet UILabel      *labelExpireDateTime;
-@property (strong, nonatomic) IBOutlet UILabel      *labelDistance;
-@property (strong, nonatomic) IBOutlet UIImageView  *imageLogo;
-@property (strong, nonatomic) IBOutlet UIScrollView *scrollView;
-@property (strong, nonatomic) IBOutlet UIView       *viewDesc;
+
+-(void)dropboxMethod;
+-(void)applyMethod;
 
 @end

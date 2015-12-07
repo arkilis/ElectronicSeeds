@@ -1,0 +1,63 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<VariablesViewState
+   version = "1.0">
+   <ContextStates>
+      <ContextState
+         contextName = "__49-[PostFormViewController submitRegistrationForm:]_block_invoke164:PostFormViewController.m">
+      </ContextState>
+      <ContextState
+         contextName = "-[PostFormViewController submitRegistrationForm:]:PostFormViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "dictCategory">
+            </PersistentString>
+            <PersistentString
+               value = "szUploadImage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__49-[PostFormViewController submitRegistrationForm:]_block_invoke:PostFormViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "szUploadImage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "+[Common postSeed:withUserId:withCompletion:]:Common.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "dictCategory">
+            </PersistentString>
+            <PersistentString
+               value = "szUploadImage">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__49-[PostFormViewController submitRegistrationForm:]_block_invoke_2:PostFormViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "dictCategory">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__42-[SelectItemViewController viewDidAppear:]_block_invoke115:SelectItemViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "seedNameLabelName">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+      <ContextState
+         contextName = "__42-[SelectItemViewController viewDidAppear:]_block_invoke80:SelectItemViewController.m">
+         <PersistentStrings>
+            <PersistentString
+               value = "container.frame.size.width">
+            </PersistentString>
+         </PersistentStrings>
+      </ContextState>
+   </ContextStates>
+</VariablesViewState>

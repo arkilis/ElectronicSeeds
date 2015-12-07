@@ -7,6 +7,10 @@
 //
 
 #import <UIKit/UIKit.h>
+#import "Constants.h"
+#import "Common.h"
+#import "Masonry.h"
+#import "MMPlaceHolder.h"
 #import "SWTableViewCell.h"
 
 @interface CustomTableCell : SWTableViewCell
@@ -25,8 +29,12 @@
 
 
 
-
-
+-(void) createLayout:(NSString*)szSeedName
+        withCategory:(NSString*)szCategory
+        withDistance:(double)distance
+   withCategoryImage:(UIImage*)imageCategory
+      withImportance:(NSString*)szImportance
+      withExpireDate:(NSString*)szExpireDate;
 
 
 @end

@@ -9,34 +9,14 @@
 #import "CollectionTableViewController.h"
 
 @interface CollectionTableViewController (){
+    SeedModel       *seedModel;
     NSArray         *aryCollectedSeeds;
+    NSMutableArray  *searchResultsCollect;
 }
 
 @end
 
 @implementation CollectionTableViewController
-
-/*
-- (void)viewDidLoad {
-    [super viewDidLoad];
-    
-    aryCollectedSeeds= [[NSMutableArray alloc] init];
-    
-    // load data items
-    [self wrapperDownLoadedItems];
-    
-    // Initialize the refresh control.
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.backgroundColor = [UIColor purpleColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget:self
-                            action:@selector(wrapperDownLoadedItems)
-                  forControlEvents:UIControlEventValueChanged];
-    
-}
-
-*/
-
 
 -(void)viewDidAppear:(BOOL)animated {
     [super viewDidAppear:YES];
@@ -46,6 +26,21 @@
     // load data items
     [self wrapperDownLoadedItems];
     
+    // initialize the search results
+    CollectionSearchResultsTableViewController *searchResultsController = [[self storyboard]
+                                                                       instantiateViewControllerWithIdentifier:@"SearchResultsCollectionTableViewController"];
+    
+    // initialize the search control
+    self.searchController = [[UISearchController alloc] initWithSearchResultsController:searchResultsController];
+    self.searchController.searchResultsUpdater = self;
+    [self.searchController.searchBar sizeToFit];
+    self.tableView.tableHeaderView = self.searchController.searchBar;
+    self.definesPresentationContext = YES;
+    searchResultsController.tableView.delegate= self;
+    self.searchController.delegate= self;
+    self.searchController.dimsBackgroundDuringPresentation= NO;
+    self.searchController.searchBar.delegate= self;
+    
     // Initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor purpleColor];
@@ -53,6 +48,9 @@
     [self.refreshControl addTarget:self
                             action:@selector(wrapperDownLoadedItems)
                   forControlEvents:UIControlEventValueChanged];
+    
+    // remove all empty rows
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 
@@ -123,27 +121,20 @@
     cell.delegate= self;
     
     // Get the location to be shown
-    SeedModel *seedItem= (SeedModel*)aryCollectedSeeds[indexPath.row];
+    SeedModel *item= (SeedModel*)aryCollectedSeeds[indexPath.row];
+   
+    // Category
+    NSDictionary    *imageCategory= [Common initCategoryImages];
+    NSString        *szImageCategorName= imageCategory[item.category];
     
-    cell.labelStationName.text  = seedItem.seedName;            // seed Name
-    cell.labelCategory.text     = seedItem.category;            // category
-    //cell.labelPostDate.text   = item.postDateTime;            // post DateTime
-    // Distance
-    cell.labelDistance.text     = [NSString stringWithFormat:@"%.2f Meters", [seedItem.range floatValue]];
+    [cell createLayout:item.seedName
+          withCategory:item.category
+          withDistance:[item.range floatValue]
+     withCategoryImage:[UIImage imageNamed:szImageCategorName]
+        withImportance:item.importance
+        withExpireDate:item.expireDateTime];
     
-    if([seedItem.category isEqual:@"Freebie"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"freebie_512.jpg"];
-    }
-    if([seedItem.category isEqual:@"Discount"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"discount_512.jpg"];
-    }
-    if([seedItem.category isEqual:@"Entertainment"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"entertainment_512.png"];
-    }
-    
-    cell.labelExpiredDate.text  = seedItem.expireDateTime;      // Expire date time
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-    //cell.backgroundView =  [[UIImageView alloc] initWithImage:[ [UIImage imageNamed:@"cell_bkground5_green.png"] stretchableImageWithLeftCapWidth:0.0 topCapHeight:5.0] ];
     return cell;
     
 }
@@ -159,6 +150,8 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showDetailCollect"]) {
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD show];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
@@ -248,6 +241,47 @@
 - (void) clearAll{
     aryCollectedSeeds= [[NSArray alloc] init];
     [Common setStoredSeeds:aryCollectedSeeds];
+}
+
+
+#pragma mark - Search Results
+// Called when the search bar becomes first responder
+- (void)updateSearchResultsForSearchController:(UISearchController *)searchController
+{
+    // Set searchString equal to what's typed into the searchbar
+    NSString *searchString = self.searchController.searchBar.text;
+    [self updateFilteredContentForStringName:searchString];
+    // If searchResultsController
+    if (self.searchController.searchResultsController) {
+        CollectionSearchResultsTableViewController *vc = (CollectionSearchResultsTableViewController *)self.searchController.searchResultsController;
+        // Update searchResults
+        vc.searchResults = searchResultsCollect;
+        // And reload the tableView with the new data
+        [vc.tableView reloadData];
+    }
+}
+
+
+// Update self.searchResults based on searchString, which is the argument in passed to this method
+- (void)updateFilteredContentForStringName:(NSString *)searchText
+{
+    
+    if (searchText == nil) {
+        // If empty the search results are the same as the original data
+        searchResultsCollect = [aryCollectedSeeds mutableCopy];
+    } else {
+        NSMutableArray *searchResults = [[NSMutableArray alloc] init];
+        for (SeedModel *seed in aryCollectedSeeds) {
+            if ([seed.seedName containsString:searchText]) {
+                [searchResults addObject:seed];
+            }
+        }
+        searchResultsCollect= searchResults;
+        
+        CollectionSearchResultsTableViewController *tableController = (CollectionSearchResultsTableViewController *)self.searchController.searchResultsController;
+        tableController.searchResults = searchResults;
+        [tableController.tableView reloadData];
+    }
 }
 
 

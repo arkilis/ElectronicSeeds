@@ -13,6 +13,9 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
+    
+    // remove all empty rows
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -27,31 +30,29 @@
 
 
 
-- (UITableViewCell *)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
+- (UITableViewCell*)tableView:(UITableView *)tableView cellForRowAtIndexPath:(NSIndexPath *)indexPath
 {
-    CustomTableCell *cell = [tableView dequeueReusableCellWithIdentifier:@"basicCellSearchResultsNow" forIndexPath:indexPath];
-    SeedModel *item = self.searchResults[indexPath.row];
+    NSString *cellIdentifier= @"basicCellSearchResultsNow";
+    CustomTableCell *cell = (CustomTableCell*)[tableView dequeueReusableCellWithIdentifier:cellIdentifier forIndexPath:indexPath];
     
-    // Cell Style
-    cell.labelStationName.text  = item.seedName;         // Station Name
-    cell.labelCategory.text     = item.category;            // Category
-    // Distance
-    cell.labelDistance.text     = [NSString stringWithFormat:@"%.2f Meters", [item.range floatValue]];
+    if (cell == nil) {
+        cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
+    }
+    //SeedModel *item = (SeedModel*)self.searchResults[indexPath.row];
+    SeedModel *item = [self.searchResults objectAtIndex:indexPath.row];
+   
+    // Category
+    NSDictionary    *imageCategory= [Common initCategoryImages];
+    NSString        *szImageCategorName= imageCategory[item.category];
     
-    if([item.category isEqual:@"Freebie"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"freebie_512.jpg"];
-    }
-    if([item.category isEqual:@"Discount"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"discount_512.jpg"];
-    }
-    if([item.category isEqual:@"Entertainment"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"entertainment_512.png"];
-    }
+    [cell createLayout:item.seedName
+          withCategory:item.category
+          withDistance:[item.range floatValue]
+     withCategoryImage:[UIImage imageNamed:szImageCategorName]
+        withImportance:item.importance
+        withExpireDate:item.expireDateTime];
     
-    cell.labelExpiredDate.text  = item.expireDateTime;      // Expire date time
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
-
-    
     return cell;
 }
 

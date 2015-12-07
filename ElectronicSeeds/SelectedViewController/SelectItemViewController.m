@@ -18,125 +18,218 @@
 
 
 @synthesize selectedSeed;
-@synthesize mapView;
-@synthesize imageLogo;
 
 
 //- (void)viewDidLoad {
 -(void) viewDidAppear:(BOOL)animated{
     
     //[super viewDidLoad];
-    
     [super viewDidAppear:animated];
-    // Do any additional setup after loading the view.
     
-    [_labelStationName setText:selectedSeed.seedName];                  // Set seed name
-    [_labelPostDateTime setText:selectedSeed.postDateTime];             // Set post date and time
-    [_labelExpireDateTime setText:selectedSeed.expireDateTime];         // Set expire date and time
-    [_labelDistance setText: [NSString stringWithFormat:@"%.2f Meters", // Set expire date and time
-                              [selectedSeed.range floatValue]]];
-
     
-    // add google map and its marker
-    self.mapView.camera = [GMSCameraPosition cameraWithLatitude: [selectedSeed.latitude doubleValue]
-                                                      longitude: [selectedSeed.longitude doubleValue]
-                                                           zoom: iGoogleMapZoomIn];
+    UIView *sv= self.view;
+    
+    // Scroll view and container
+    UIScrollView *scrollview= [UIScrollView new];
+    [sv addSubview:scrollview];
+    [scrollview mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(sv).with.insets(UIEdgeInsetsMake(5, 5, 5, 5));
+    }];
+    
+    // create container
+    UIView *container= [UIView new];
+    [scrollview addSubview:container];
+    [container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.edges.equalTo(scrollview);
+        make.width.equalTo(scrollview);
+    }];
+    
+    
+    // Add map view
+    
+    GMSMapView *mapView= [GMSMapView new];
+    // Add google map and its marker
+    mapView.camera = [GMSCameraPosition cameraWithLatitude: [selectedSeed.latitude doubleValue]
+                                                 longitude: [selectedSeed.longitude doubleValue]
+                                                      zoom: iGoogleMapZoomIn];
+    
+    
     GMSMarker *marker = [[GMSMarker alloc] init];
     marker.position = CLLocationCoordinate2DMake([selectedSeed.latitude doubleValue],
                                                  [selectedSeed.longitude doubleValue]);
-    marker.title = selectedSeed.seedName;
+    
     //marker.snippet = @"Australia";
-    marker.map = self.mapView;
+    marker.map = mapView;
+    [container addSubview:mapView];
+    [mapView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(container.mas_top).with.offset(88);
+        make.left.equalTo(container.mas_left);
+        make.right.equalTo(container.mas_right);
+        NSNumber *height= [NSNumber numberWithDouble:((sv.frame.size.width-10)/4*3.0)];
+        make.height.equalTo(height);
+    }];
     
     
-    // load image or url
-    [SVProgressHUD show];
-    dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
-        
-        NSString *szURLDropbox= selectedSeed.fileURLDropbox;
-        NSString *szURLUpload=  [NSString stringWithFormat:@"%@%@", szURLMain, selectedSeed.fileURLUpload];
-        
-        szURLDropbox= [szURLDropbox stringByReplacingOccurrencesOfString:@"(null)" withString:@""];
-        NSString *szURLTemp= [selectedSeed.fileURLUpload stringByReplacingOccurrencesOfString:@"upload/" withString:@""];
-        
-        NSLog(@"szURLDropbox: %@", szURLDropbox);
-        NSLog(@"szURLUpload: %@", szURLTemp);
-        
-        // upload is not null AND dropbox is null
-        if(![szURLTemp isEqualToString:@""]&&
-           [szURLDropbox isEqualToString:@""]){
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                UIImageView *imageUpload = [[UIImageView alloc] initWithFrame:CGRectMake(0, 725, 320, 158)];
-                NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: szURLUpload]];
-                UIImage *image = [UIImage imageWithData:imageData];
-                imageUpload.image = image;
-                imageUpload.contentMode= UIViewContentModeScaleAspectFill;
-                [self.scrollView addSubview:imageUpload];
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                });
-            });
-        }
-        
-        // upload is null AND dropbox is not null
-        if([szURLTemp isEqualToString:@""] && ![szURLDropbox isEqualToString:@""]){
-            // load dropbox url
-            global_dropbox_url= [NSString stringWithFormat:@"%@",szURLDropbox];
-            UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-            button.backgroundColor= [Common colorFromHexString:@"#0581E4"];
-            button.layer.cornerRadius = 5;
-            button.clipsToBounds = YES;
-            [button addTarget:self
-                       action:@selector(aMethod)
+    // Add Seed name label
+    UILabel *seedNameLabelName= [UILabel new];
+    [seedNameLabelName setText:@"Seed Name:"];
+    [seedNameLabelName setFont:[UIFont boldSystemFontOfSize:16]];
+    //[seedNameLabelName showPlaceHolderWithLineColor:[UIColor whiteColor] backColor:[UIColor blackColor] arrowSize:25 lineWidth:3 frameWidth:5 frameColor:[UIColor redColor]];
+    [container addSubview:seedNameLabelName];
+    [seedNameLabelName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(mapView.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    UILabel *seedNameLabelValue= [UILabel new];
+    [seedNameLabelValue setText:selectedSeed.seedName];
+    [container addSubview:seedNameLabelValue];
+    [seedNameLabelValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(seedNameLabelName.mas_bottom);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    // Add Post date time label
+    UILabel *postDatetimeLabelName= [UILabel new];
+    [postDatetimeLabelName setText:@"Post Date & Time:"];
+    [postDatetimeLabelName setFont:[UIFont boldSystemFontOfSize:16]];
+    [container addSubview:postDatetimeLabelName];
+    [postDatetimeLabelName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(seedNameLabelValue.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    UILabel *postDatetimeLabelValue= [UILabel new];
+    [postDatetimeLabelValue setText:selectedSeed.postDateTime];
+    [container addSubview:postDatetimeLabelValue];
+    [postDatetimeLabelValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(postDatetimeLabelName.mas_bottom);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    // Add Expire date time label
+    UILabel *expireDatetimeLabelName= [UILabel new];
+    [expireDatetimeLabelName setText:@"Expire Date & Time:"];
+    [expireDatetimeLabelName setFont:[UIFont boldSystemFontOfSize:16]];
+    [container addSubview:expireDatetimeLabelName];
+    [expireDatetimeLabelName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(postDatetimeLabelValue.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    UILabel *expireDatetimeLabelValue= [UILabel new];
+    [container addSubview:expireDatetimeLabelValue];
+    [expireDatetimeLabelValue setText:selectedSeed.expireDateTime];
+    [expireDatetimeLabelValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(expireDatetimeLabelName.mas_bottom);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    // Add distance label
+    UILabel *distanceLabelName= [UILabel new];
+    [distanceLabelName setText:@"Distance:"];
+    [distanceLabelName setFont:[UIFont boldSystemFontOfSize:16]];
+    [container addSubview:distanceLabelName];
+    [distanceLabelName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(expireDatetimeLabelValue.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    UILabel *distanceLabelValue= [UILabel new];
+    [distanceLabelValue setText: [NSString stringWithFormat:@"%.2f Meters", [selectedSeed.range floatValue]]];
+    [container addSubview:distanceLabelValue];
+    [distanceLabelValue mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(distanceLabelName.mas_bottom);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    // Add Decription label
+    UILabel *descriptionLabelName= [UILabel new];
+    [descriptionLabelName setText:@"Description:"];
+    [descriptionLabelName setFont:[UIFont boldSystemFontOfSize:16]];
+    [container addSubview:descriptionLabelName];
+    [descriptionLabelName mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(distanceLabelValue.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    // Add Image
+    UIImageView *imageView= [UIImageView new];
+    NSString *szURLUpload=  [NSString stringWithFormat:@"%@%@", szURLMain, selectedSeed.fileURLUpload];
+    [imageView sd_setImageWithURL:[NSURL URLWithString:szURLUpload] placeholderImage:[UIImage imageNamed:@"loading"]];
+    imageView.contentMode= UIViewContentModeScaleAspectFit;
+    
+    [container addSubview:imageView];
+    [imageView mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(descriptionLabelName.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@200);
+    }];
+    
+    UIView *lastview= imageView;
+    // Add Dropbox button
+    if(![selectedSeed.fileURLDropbox isEqualToString:@""]){
+        UIButton *dropboxBtn= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+        dropboxBtn.backgroundColor= [Common colorFromHexString:@"#0581E4"];
+        dropboxBtn.layer.cornerRadius = 4;
+        dropboxBtn.clipsToBounds = YES;
+        [dropboxBtn addTarget:self
+                       action:@selector(dropboxMethod)
              forControlEvents:UIControlEventTouchUpInside];
-            [button setTitle:@"Dropbox Link" forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-            [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-            button.frame = CGRectMake(15, 725, 290, 44);
-            [self.scrollView addSubview:button];
-            dispatch_async(dispatch_get_main_queue(), ^{
-                [SVProgressHUD dismiss];
-            });
-        }
+        [dropboxBtn setTitle:@"Dropbox Link" forState:UIControlStateNormal];
+        [dropboxBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
         
-        //// upload is not null AND dropbox is not null
-        if(![szURLTemp isEqualToString:@""] && ![szURLDropbox isEqualToString:@""]){
-            //[self.scrollView addSubview:button];
-            
-            dispatch_async(dispatch_get_main_queue(), ^{
-                // load upload image first
-                UIImageView *imageUpload_upload = [[UIImageView alloc] initWithFrame:CGRectMake(0, 725, 320, 158)];
-                NSData *imageData = [[NSData alloc] initWithContentsOfURL: [NSURL URLWithString: szURLUpload]];
-                UIImage *image = [UIImage imageWithData:imageData];
-                imageUpload_upload.image = image;
-                imageUpload_upload.contentMode= UIViewContentModeScaleAspectFill;
-                //[self.scrollView addSubview:imageUpload_upload];
-                
-                // load dropbox url
-                global_dropbox_url= [NSString stringWithFormat:@"%@",szURLDropbox];
-                UIButton *button = [UIButton buttonWithType:UIButtonTypeRoundedRect];
-                button.backgroundColor= [Common colorFromHexString:@"#0581E4"];
-                button.layer.cornerRadius = 5;
-                button.clipsToBounds = YES;
-                [button addTarget:self
-                           action:@selector(aMethod)
-                 forControlEvents:UIControlEventTouchUpInside];
-                [button setTitle:@"Dropbox Link" forState:UIControlStateNormal];
-                [button setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
-                [button setTitleColor:[UIColor grayColor] forState:UIControlStateHighlighted];
-                button.frame = CGRectMake(15, 940, 290, 44);
-                
-                [self.scrollView addSubview:imageUpload_upload];
-                [self.scrollView addSubview:button];
-                
-                dispatch_async(dispatch_get_main_queue(), ^{
-                    [SVProgressHUD dismiss];
-                });
-            });
-        }
-        
-    });
+        [container addSubview:dropboxBtn];
+        [dropboxBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+            make.top.equalTo(imageView.mas_bottom).with.offset(20);
+            make.left.equalTo(mapView.mas_left);
+            make.right.equalTo(mapView.mas_right);
+            make.height.equalTo(@44);
+        }];
+        lastview= dropboxBtn;
+    }
+    
+    // Add Apply button
+    UIButton *applyBtn= [UIButton buttonWithType:UIButtonTypeRoundedRect];
+    applyBtn.backgroundColor= [Common colorFromHexString:@"#0581E4"];
+    applyBtn.layer.cornerRadius = 4;
+    applyBtn.clipsToBounds = YES;
+    [applyBtn addTarget:self
+                 action:@selector(applyMethod)
+       forControlEvents:UIControlEventTouchUpInside];
+    [applyBtn setTitle:@"Apply" forState:UIControlStateNormal];
+    [applyBtn setTitleColor:[UIColor whiteColor] forState:UIControlStateNormal];
+    
+    [container addSubview:applyBtn];
+    [applyBtn mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.top.equalTo(lastview.mas_bottom).with.offset(10);
+        make.left.equalTo(mapView.mas_left);
+        make.right.equalTo(mapView.mas_right);
+        make.height.equalTo(@44);
+    }];
+    
+    [container mas_makeConstraints:^(MASConstraintMaker *make) {
+        make.bottom.equalTo(applyBtn.mas_bottom).with.offset(88);
+    }];
 }
 
 - (void)didReceiveMemoryWarning {
@@ -144,17 +237,20 @@
     // Dispose of any resources that can be recreated.
 }
 
--(void)aMethod {
-    if(![global_dropbox_url isEqualToString:@""]){
+-(void)dropboxMethod {
+    if(![selectedSeed.fileURLUpload isEqualToString:@""]){
         [[UIApplication sharedApplication] openURL:[NSURL URLWithString: global_dropbox_url]];
     }
 }
 
 
+-(void)applyMethod {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
+    [SVProgressHUD showSuccessWithStatus:@"You have successfully applied!"];
+}
+
 
 @end
-
-
 
 
 

@@ -1,4 +1,4 @@
-//
+    //
 //  Common.m
 //  ElectronicSeeds
 //
@@ -206,13 +206,67 @@
               
           } failure:^(AFHTTPRequestOperation *operation, NSError *error) {
               NSLog(@"Login error: %@", error);
-              [self alertStatus:@"Invalid username or password." :@"Sign in Failed!": 0];
+              [self alertStatus:@"Invalid username or password." withTitle:@"Sign in Failed!": 0];
               if(completion)
                   completion(userinfo);
           }];
 }
 
+// Upload Image
+//  no return
++(void)uploadImage:(UIImage*)image
+         withCompletion:(void(^)(NSString*))completion{
+    
+    NSString* szURLUploadImageRequest= [NSString stringWithFormat:@"%@%@", szURLMain, szURLUploadImage];
+    NSData *imageData = UIImageJPEGRepresentation(image, 0.5);
+    AFHTTPRequestOperationManager *manager = [AFHTTPRequestOperationManager manager];
+    [manager POST:szURLUploadImageRequest
+       parameters:nil constructingBodyWithBlock:^(id<AFMultipartFormData> formData){
+           [formData appendPartWithFileData:imageData name:@"filePath" fileName:@"uploadTemp.jpg" mimeType:@"image/jpeg"];
+            }
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              if (completion) {
+                  NSLog(@"Upload Success: %@", responseObject);
+                  completion(responseObject[@"filename"]);
+              }
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error){
+              NSLog(@"Success: %@", error);
+          }];
+}
 
+
++(void)postSeed:(SeedModel*)seedToPost
+     withUserId:(NSString*)userID
+ withCompletion:(void(^)(bool))completion{
+    
+    NSString* szURLUploadSeedRequest= [NSString stringWithFormat:@"%@%@", szURLMain, szURLPostNewSeed];
+
+    AFHTTPRequestOperationManager *manager= [AFHTTPRequestOperationManager manager];
+    [manager POST:szURLUploadSeedRequest
+       parameters:@{
+                    @"address"          : seedToPost.address,
+                    @"range"            : seedToPost.range,
+                    @"fileURLDropbox"   : seedToPost.fileURLDropbox,
+                    @"fileURLUpload"    : seedToPost.fileURLUpload,
+                    @"lat"              : seedToPost.latitude,
+                    @"lng"              : seedToPost.longitude,
+                    @"duration"         : seedToPost.duration,
+                    @"stationName"      : seedToPost.seedName,
+                    @"user_id"          : userID,
+                    @"category"         : seedToPost.category,
+                    @"startDateTime"    : seedToPost.postDateTime,
+                    @"is_from_app"      : @1
+                    }
+          success:^(AFHTTPRequestOperation *operation, id responseObject) {
+              if(completion)
+                  completion(TRUE);
+          }
+          failure:^(AFHTTPRequestOperation *operation, NSError *error){
+              if(completion)
+                  completion(FALSE);
+          }];
+}
 
 
 // Set UIColor from Hex string
@@ -230,7 +284,8 @@
 
 
 // Static method on alert
-+ (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag
+//  tag can be put as 0
++ (void) alertStatus:(NSString *)msg withTitle:(NSString *)title :(int) tag
 {
     UIAlertView *alertView = [[UIAlertView alloc] initWithTitle:title
                                                         message:msg
@@ -324,6 +379,22 @@
 }
 
 
+
+// Init Table Cell category images NSDictionary
++ (NSDictionary*) initCategoryImages{
+    return @{
+             @"Freebie"          : @"coin.png",
+             @"Discount"         : @"sale.png",
+             @"Drink"            : @"drink.png",
+             @"Entertainment"    : @"entertainment.png",
+             @"Travel"           : @"travel.png",
+             @"Sports"           : @"sports.png",
+             @"Accommondation"   : @"accommondation.png",
+             @"Attraction"       : @"attraction.png",
+             @"Meal"             : @"meal.png",
+             @"Movie"            : @"movie.png",
+             };
+}
 
 @end
 

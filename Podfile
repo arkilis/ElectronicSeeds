@@ -1,6 +1,10 @@
 pod 'SWTableViewCell', '~> 0.3.7'
 pod 'AFNetworking', '~> 2.5'
 pod 'FXForms', '~> 1.2.13'
-pod 'Dropbox-iOS-SDK', '~> 1.3.13'
+pod 'Dropbox-iOS-Dropins-SDK', '~> 1.2.1'
 pod 'GoogleMaps', '~> 1.10.2'
-pod 'SVProgressHUD', '~> 1.1.3'
+pod 'SVProgressHUD', :head
+pod 'Masonry', '~> 0.6.3'
+pod 'MMPlaceHolder', '~> 1.9'
+pod 'SDWebImage', '~> 3.7.3'
+pod 'Onboard', '~> 2.1.7'

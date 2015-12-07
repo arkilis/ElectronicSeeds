@@ -24,7 +24,6 @@
 - (IBAction)btnSave:(id)sender {
     MeFXForm *form = self.formController.form;
     
-    //NSString *szEmail=      form.account;   // actually I used preplaced value, you cannot get any value for it
     NSString *szSetting=    form.setting;
     NSArray *ary_category=  form.category;
 
@@ -48,26 +47,13 @@
 
 // Log out button
 - (void)logout:(UITableViewCell<FXFormFieldCell> *)cell {
-    
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     [SVProgressHUD show];
     
     dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
         
-        // Remove the local data
-        // Need to replaced with UserInfo
-        
         NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
-        
-
         [userDefaults removeObjectForKey:USER_PERSIST];
-        
-        /*
-        [userDefaults removeObjectForKey:@"userID"];
-        [userDefaults removeObjectForKey:@"userEmail"];
-        [userDefaults removeObjectForKey:@"action"];
-        [userDefaults synchronize];
-         */
-
         dispatch_async(dispatch_get_main_queue(), ^{
             [SVProgressHUD dismiss];
             // jump to login view

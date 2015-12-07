@@ -16,8 +16,6 @@
 
 - (void)viewDidLoad {
     [super viewDidLoad];
-    // Do any additional setup after loading the view.
-    
     self.delegate= self;
 }
 
@@ -31,22 +29,15 @@
     switch (tabBarController.selectedIndex) {
         // Now
         case 0:{
-            NSLog(@"selected 0");
             break;
         }
-            
         // Future
         case 1:{
-            NSLog(@"selected 1");
             break;
         }
-            
         // Post
         case 2:{
-            
-            NSLog(@"selected 2 - post tab");
             UserInfo *userinfo= [Common deSerializeUserInfo];
-            NSLog(@"Post tab: user id: %@, user email:%@", userinfo.userID, userinfo.userEmail);
             if (userinfo==nil || userinfo.userID==nil) {
                 // set the shard object -- remember the view that going to go.
                 NSUserDefaults *userDefaults = [NSUserDefaults standardUserDefaults];
@@ -60,10 +51,8 @@
             }
             break;
         }
-            
         // Collection
         case 3:{
-            NSLog(@"selected 3");
             break;
         }
         // Me

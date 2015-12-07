@@ -22,9 +22,10 @@
 // Button Login
 - (IBAction)btnLogin:(UIButton *)sender {
     if([[self.textEmail text] isEqualToString:@""] || [[self.textPassword text] isEqualToString:@""] ) {
-        [Common alertStatus:@"Please enter Email and Password" :@"Sign in Failed!" :0];
+        [Common alertStatus:@"Please enter Email and Password!" withTitle:@"Sign in Failed" :0];
     } else {
         // Show loading image
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD show];
     
         [Common getLogin:[self.textEmail text] password:[self.textPassword text]
@@ -77,17 +78,7 @@
     [self presentViewController:nav animated:YES completion:nil];
 }
 
-
-
-// Test login
-/*
-- (IBAction)testLogin:(UIButton *)sender {
-    self.textEmail.text= @"arkilis@gmail.com";
-    self.textPassword.text = @"wahaha";
-}
-*/
-
-// dismiss the keyboard
+// Dismiss the keyboard
 - (void) touchesBegan:(NSSet *)touches withEvent:(UIEvent *)event{
     [self.textEmail resignFirstResponder];
     [self.textPassword resignFirstResponder];
@@ -102,15 +93,6 @@
     }
     return NO;
 }
-
-/*
-// Lock screen rotation
--(void) restrictRotation:(BOOL) restriction
-{
-    AppDelegate* appDelegate = (AppDelegate*)[UIApplication sharedApplication].delegate;
-    appDelegate.restrictRotation = restriction;
-}
-*/
 
 // Cancel Login and return to the Now View
 - (IBAction)btnCancel:(id)sender {

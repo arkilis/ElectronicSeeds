@@ -1,0 +1,41 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<!DOCTYPE plist PUBLIC "-//Apple//DTD PLIST 1.0//EN" "http://www.apple.com/DTDs/PropertyList-1.0.dtd">
+<plist version="1.0">
+<dict>
+	<key>IDESourceControlProjectFavoriteDictionaryKey</key>
+	<false/>
+	<key>IDESourceControlProjectIdentifier</key>
+	<string>8CC5E1E8-F02B-458C-B34D-F3C60740D558</string>
+	<key>IDESourceControlProjectName</key>
+	<string>ElectronicSeeds</string>
+	<key>IDESourceControlProjectOriginsDictionary</key>
+	<dict>
+		<key>818C5B66E71700A1FE2738849DDC8396F34DB24D</key>
+		<string>https://github.com/arkilis/ElectronicSeeds.git</string>
+	</dict>
+	<key>IDESourceControlProjectPath</key>
+	<string>ElectronicSeeds.xcodeproj</string>
+	<key>IDESourceControlProjectRelativeInstallPathDictionary</key>
+	<dict>
+		<key>818C5B66E71700A1FE2738849DDC8396F34DB24D</key>
+		<string>../..</string>
+	</dict>
+	<key>IDESourceControlProjectURL</key>
+	<string>https://github.com/arkilis/ElectronicSeeds.git</string>
+	<key>IDESourceControlProjectVersion</key>
+	<integer>111</integer>
+	<key>IDESourceControlProjectWCCIdentifier</key>
+	<string>818C5B66E71700A1FE2738849DDC8396F34DB24D</string>
+	<key>IDESourceControlProjectWCConfigurations</key>
+	<array>
+		<dict>
+			<key>IDESourceControlRepositoryExtensionIdentifierKey</key>
+			<string>public.vcs.git</string>
+			<key>IDESourceControlWCCIdentifierKey</key>
+			<string>818C5B66E71700A1FE2738849DDC8396F34DB24D</string>
+			<key>IDESourceControlWCCName</key>
+			<string>ElectronicSeeds</string>
+		</dict>
+	</array>
+</dict>
+</plist>

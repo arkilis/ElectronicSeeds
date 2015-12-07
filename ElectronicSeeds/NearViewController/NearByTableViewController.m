@@ -12,13 +12,13 @@
 @interface NearByTableViewController () {
     SeedModel       *seedModel;
     NSArray         *arySeeds;
-    NSArray         *searchResultsNow;
+    NSMutableArray  *searchResultsNow;
 }
 @end
 
 
 
-@implementation NearByTableViewController
+@implementation NearByTableViewController 
 
 
 - (void)viewDidLoad {
@@ -42,7 +42,6 @@
     self.searchController.dimsBackgroundDuringPresentation= NO;
     self.searchController.searchBar.delegate= self;
     
-    
     // initialize the refresh control.
     self.refreshControl = [[UIRefreshControl alloc] init];
     self.refreshControl.backgroundColor = [UIColor purpleColor];
@@ -50,28 +49,10 @@
     [self.refreshControl addTarget:self
                             action:@selector(wrapperDownLoadedItems)
                   forControlEvents:UIControlEventValueChanged];
-}
-
-// Not Zoombie Code
-// Need to find out the reason: there is no data loaded into the Selected View
-/*
-- (void)viewDidAppear:(BOOL)animated{
-    [super viewDidAppear:animated];
-   
     
-    // load data items
-    [self wrapperDownLoadedItems];
-    
-    // Initialize the refresh control.
-    self.refreshControl = [[UIRefreshControl alloc] init];
-    self.refreshControl.backgroundColor = [UIColor purpleColor];
-    self.refreshControl.tintColor = [UIColor whiteColor];
-    [self.refreshControl addTarget:self
-                            action:@selector(wrapperDownLoadedItems)
-                  forControlEvents:UIControlEventValueChanged];
-
+    // remove all empty rows
+    self.tableView.tableFooterView = [[UIView alloc] initWithFrame:CGRectZero];
 }
- */
 
 - (void)didReceiveMemoryWarning {
     [super didReceiveMemoryWarning];
@@ -82,8 +63,6 @@
 -(void) wrapperDownLoadedItems{
     
     Common *common= [[Common alloc] init];
-    //arySeeds = [NSArray arrayWithArray:[common getNearbySeedsArray:[common deviceLocation]]];
-    //NSMutableArray *aryMutableSeeds = [[NSMutableArray alloc] init];
     
     [common getNearbySeedsArray: [common deviceLocation]
                  withCompletion: ^(NSMutableArray* aryMutableSeeds){
@@ -150,35 +129,17 @@
     // Get the location to be shown
     SeedModel *item = arySeeds[indexPath.row];
     
-    // Get references to labels of cell
-    if (cell == nil) {
-        cell = [[CustomTableCell alloc] initWithStyle:UITableViewCellStyleDefault reuseIdentifier:cellIdentifier];
-    }
-    
-    cell.labelStationName.text  = item.seedName;            // Seed Name
-    cell.labelCategory.text     = item.category;            // Category
-    //cell.labelPostDate.text   = item.postDateTime;        // Post DateTime
-    
-    // Distance
-    cell.labelDistance.text     = [NSString stringWithFormat:@"%.2f Meters", [item.range floatValue]];
-    
     // Category
-    if([item.category isEqual:@"Freebie"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"freebie_512.jpg"];
-    }
-    if([item.category isEqual:@"Discount"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"discount_512.jpg"];
-    }
-    if([item.category isEqual:@"Entertainment"]){
-        cell.imageCategory.image= [UIImage imageNamed:@"entertainment_512.png"];
-    }
+    NSDictionary    *imageCategory= [Common initCategoryImages];
+    NSString        *szImageCategorName= imageCategory[item.category];
     
-    // importance
-    if([item.importance isEqual:@"1"]){
-        cell.imageImportance.image= [UIImage imageNamed:@"dot.png"];
-    }
+    [cell createLayout:item.seedName
+          withCategory:item.category
+          withDistance:[item.range floatValue]
+     withCategoryImage:[UIImage imageNamed:szImageCategorName]
+        withImportance:item.importance
+        withExpireDate:item.expireDateTime];
 
-    cell.labelExpiredDate.text  = item.expireDateTime;      // Expire date time
     cell.selectionStyle = UITableViewCellSelectionStyleGray;
     return cell;
 
@@ -188,6 +149,7 @@
 -(void)prepareForSegue:(UIStoryboardSegue *)segue sender:(id)sender{
     if ([segue.identifier isEqualToString:@"showDetailNow"]) {
         NSIndexPath *indexPath = [self.listTableView indexPathForSelectedRow];
+        [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
         [SVProgressHUD show];
         dispatch_async(dispatch_get_global_queue(DISPATCH_QUEUE_PRIORITY_DEFAULT, 0), ^{
             
@@ -205,7 +167,7 @@
                   success: ^(AFHTTPRequestOperation *operation, id responseObject) {
                       NSLog(@"JSON: %@", responseObject);
                       // transition
-                      SelectItemViewController *destViewController = segue.destinationViewController;
+                      SelectItemViewController *destViewController = (SelectItemViewController*)segue.destinationViewController;
                       destViewController.selectedSeed = [arySeeds objectAtIndex:indexPath.row];
                       dispatch_async(dispatch_get_main_queue(), ^{
                           [SVProgressHUD dismiss];
@@ -234,6 +196,7 @@
 // Action for right swipe
 // -- for collection
 - (void)swipeableTableViewCell:(SWTableViewCell *)cell didTriggerRightUtilityButtonWithIndex:(NSInteger)index {
+    [SVProgressHUD setDefaultStyle:SVProgressHUDStyleDark];
     switch (index) {
         case 0:
         {
@@ -279,18 +242,17 @@
 }
 
 #pragma mark - Search Results
-
 // Called when the search bar becomes first responder
 - (void)updateSearchResultsForSearchController:(UISearchController *)searchController
 {
     // Set searchString equal to what's typed into the searchbar
     NSString *searchString = self.searchController.searchBar.text;
-    [self updateFilteredContentForAirlineName:searchString];
+    [self updateFilteredContentForStringName:searchString];
     // If searchResultsController
     if (self.searchController.searchResultsController) {
         NearBySearchResultsTableViewController *vc = (NearBySearchResultsTableViewController *)self.searchController.searchResultsController;
         // Update searchResults
-        vc.searchResults = [[NSMutableArray alloc]initWithArray:searchResultsNow]; ;
+        vc.searchResults = searchResultsNow;
         // And reload the tableView with the new data
         [vc.tableView reloadData];
     }
@@ -298,7 +260,7 @@
 
 
 // Update self.searchResults based on searchString, which is the argument in passed to this method
-- (void)updateFilteredContentForAirlineName:(NSString *)searchText
+- (void)updateFilteredContentForStringName:(NSString *)searchText
 {
     
     if (searchText == nil) {
@@ -312,27 +274,12 @@
             }
         }
         searchResultsNow= searchResults;
-        
         NearBySearchResultsTableViewController *tableController = (NearBySearchResultsTableViewController *)self.searchController.searchResultsController;
         tableController.searchResults = searchResults;
         [tableController.tableView reloadData];
     }
 }
 
-
-
-//////////// Will be deleted /////////////////////
-/*
-// Back to loig view
-- (IBAction)btnBacktoLogin:(UIBarButtonItem *)sender {
-    // Custome animation
-    //[self.navigationController.view.layer addAnimation:transition forKey:kCATransition];
-    
-    LoginViewController  *logVC = [self.storyboard instantiateViewControllerWithIdentifier:@"loginViewControl"];
-    [self presentViewController:logVC animated:NO completion:nil];
-}
-//////////// Will be deleted /////////////////////
-*/
 @end
 
 

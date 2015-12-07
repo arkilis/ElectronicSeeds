@@ -10,11 +10,18 @@
 #import "Common.h"
 #import "SeedModel.h"
 #import "CustomTableCell.h"
-#import "SelectItemViewController.h"
 #import "SWTableViewCell.h"
+#import "SelectItemViewController.h"
+#import "CollectionSearchResultsTableViewController.h"
 
-@interface CollectionTableViewController : UITableViewController <UITableViewDataSource, UITableViewDelegate, UIAlertViewDelegate, SWTableViewCellDelegate>
+@interface CollectionTableViewController : UITableViewController <UITableViewDataSource,
+                                                                    UITableViewDelegate,
+                                                                    SWTableViewCellDelegate,
+                                                                    UISearchResultsUpdating,
+                                                                    UISearchControllerDelegate,
+                                                                    UISearchBarDelegate>
 
 @property (strong, nonatomic) IBOutlet UITableView *listTableView;
+@property (nonatomic, strong) UISearchController *searchController;
 
 @end

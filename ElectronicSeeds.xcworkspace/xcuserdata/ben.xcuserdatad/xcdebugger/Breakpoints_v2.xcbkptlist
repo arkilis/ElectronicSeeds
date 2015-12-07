@@ -20,27 +20,11 @@
             ignoreCount = "0"
             continueAfterRunningActions = "No"
             filePath = "ElectronicSeeds/FutureViewController/FutureTableTableViewController.m"
-            timestampString = "464647270.232056"
+            timestampString = "471215025.165514"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "59"
-            endingLineNumber = "59"
-            landmarkName = "-wrapperDownLoadedItems"
-            landmarkType = "5">
-         </BreakpointContent>
-      </BreakpointProxy>
-      <BreakpointProxy
-         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
-         <BreakpointContent
-            shouldBeEnabled = "No"
-            ignoreCount = "0"
-            continueAfterRunningActions = "No"
-            filePath = "ElectronicSeeds/FutureViewController/FutureTableTableViewController.m"
-            timestampString = "464945838.442828"
-            startingColumnNumber = "9223372036854775807"
-            endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "129"
-            endingLineNumber = "129"
+            startingLineNumber = "130"
+            endingLineNumber = "130"
             landmarkName = "-tableView:cellForRowAtIndexPath:"
             landmarkType = "5">
          </BreakpointContent>
@@ -51,14 +35,62 @@
             shouldBeEnabled = "No"
             ignoreCount = "0"
             continueAfterRunningActions = "No"
-            filePath = "ElectronicSeeds/FutureViewController/FutureTableTableViewController.m"
-            timestampString = "464946821.492115"
+            filePath = "ElectronicSeeds/Common/Common.m"
+            timestampString = "465340023.02952"
             startingColumnNumber = "9223372036854775807"
             endingColumnNumber = "9223372036854775807"
-            startingLineNumber = "76"
-            endingLineNumber = "76"
-            landmarkName = "-wrapperDownLoadedItems"
+            startingLineNumber = "102"
+            endingLineNumber = "102"
+            landmarkName = "-getNearbySeedsArray:withCompletion:"
             landmarkType = "5">
+         </BreakpointContent>
+      </BreakpointProxy>
+      <BreakpointProxy
+         BreakpointExtensionID = "Xcode.Breakpoint.FileBreakpoint">
+         <BreakpointContent
+            shouldBeEnabled = "No"
+            ignoreCount = "0"
+            continueAfterRunningActions = "No"
+            filePath = "ElectronicSeeds/SelectedViewController/SelectItemViewController.m"
+            timestampString = "471215025.165514"
+            startingColumnNumber = "9223372036854775807"
+            endingColumnNumber = "9223372036854775807"
+            startingLineNumber = "229"
+            endingLineNumber = "229"
+            landmarkName = "-viewDidAppear:"
+            landmarkType = "5">
+            <Locations>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "-[SelectItemViewController viewDidAppear:]"
+                  moduleName = "ElectronicSeeds"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ben/ben_ws/ios_dev/ElectronicSeeds/ElectronicSeeds/SelectedViewController/SelectItemViewController.m"
+                  timestampString = "469833875.039135"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "5851">
+               </Location>
+               <Location
+                  shouldBeEnabled = "No"
+                  ignoreCount = "0"
+                  continueAfterRunningActions = "No"
+                  symbolName = "__42-[SelectItemViewController viewDidAppear:]_block_invoke187"
+                  moduleName = "ElectronicSeeds"
+                  usesParentBreakpointCondition = "Yes"
+                  urlString = "file:///Users/ben/ben_ws/ios_dev/ElectronicSeeds/ElectronicSeeds/SelectedViewController/SelectItemViewController.m"
+                  timestampString = "469833875.039265"
+                  startingColumnNumber = "9223372036854775807"
+                  endingColumnNumber = "9223372036854775807"
+                  startingLineNumber = "212"
+                  endingLineNumber = "212"
+                  offsetFromSymbolStart = "36">
+               </Location>
+            </Locations>
          </BreakpointContent>
       </BreakpointProxy>
    </Breakpoints>

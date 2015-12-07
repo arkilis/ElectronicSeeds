@@ -38,8 +38,8 @@
 */
 
 // Get the device location
-- (NSString *)deviceLocation;
-- (void)getNearbySeedsArray: (NSString*) szLocation
+-(NSString *)deviceLocation;
+-(void)getNearbySeedsArray: (NSString*) szLocation
              withCompletion: (void (^)(NSMutableArray* aryRes))completion;
 
 -(void)getFutureSeedsArray: (NSString*)szLocation
@@ -57,7 +57,7 @@
 // Set UIColor from Hex string
 + (UIColor *)colorFromHexString:(NSString *)hexString;
 // Alert Box
-+ (void) alertStatus:(NSString *)msg :(NSString *)title :(int) tag;
++ (void) alertStatus:(NSString *)msg withTitle:(NSString *)title :(int) tag;
 
 // Get URL
 //  get website url
@@ -67,6 +67,14 @@
 //  get forgot password url
 +(NSString*)getForgetPasswordURL;
 
+// Upload Image
++(void)uploadImage:(UIImage*)image
+    withCompletion:(void(^)(NSString*))completion;
+
+// Post a Seed Object with user id
++(void)postSeed:(SeedModel*)seedToPost
+     withUserId:(NSString*)userID
+ withCompletion:(void(^)(bool))completion;
 
 
 // Get Stored Seeds array
@@ -91,5 +99,7 @@
           withNotification: (NSString*) notification
               withCategory: (NSArray*)  category;
 
+// Init categroy images
++ (NSDictionary*) initCategoryImages;
 
 @end
